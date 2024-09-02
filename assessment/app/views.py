@@ -63,9 +63,14 @@ class PostUpdateView(generics.UpdateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
+    # def get_queryset(self):
+    #     # Limit the queryset to posts authored by the logged-in user
+    #     return self.queryset.filter(author=self.request.user)
+
     def get_queryset(self):
-        # Limit the queryset to posts authored by the logged-in user
-        return self.queryset.filter(author=self.request.user)
+        if self.request.user.is_authenticated:
+            return self.queryset.filter(author=self.request.user)
+        return Post.objects.none() 
 
     def perform_update(self, serializer):
         # Ensure that only the author can update the post
@@ -80,8 +85,9 @@ class DeletePostView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Limit the queryset to posts authored by the logged-in user
-        return self.queryset.filter(author=self.request.user)
+        if self.request.user.is_authenticated:
+            return self.queryset.filter(author=self.request.user)
+        return Post.objects.none() 
 
     def perform_destroy(self, instance):
         # Ensure that only the author can delete the post
@@ -93,6 +99,7 @@ class DeletePostView(generics.DestroyAPIView):
 class LikePostView(generics.CreateAPIView):
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticated]
+    queryset= Post.objects.all()
 
     def create(self, request, *args, **kwargs):
         post_id = self.kwargs.get('pk')
@@ -114,6 +121,7 @@ class LikePostView(generics.CreateAPIView):
 class UnlikePostView(generics.DestroyAPIView):
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticated]
+    queryset= Post.objects.all()
 
     def delete(self, request, *args, **kwargs):
         post_id = self.kwargs.get('pk')

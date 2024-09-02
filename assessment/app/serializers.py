@@ -20,10 +20,24 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data.update({'username': self.user.username})
         return data
 
+# class CommentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Comment
+#         fields = ['id', 'content', 'author', 'created_at', 'parent']
+#         ref_name = 'CommentSerializer'
 class CommentSerializer(serializers.ModelSerializer):
+    replies = serializers.SerializerMethodField()
+    author = serializers.StringRelatedField()
+    
     class Meta:
         model = Comment
-        fields = ['id', 'content', 'author', 'created_at', 'parent']
+        fields = ['id', 'post', 'author', 'content', 'created_at', 'parent', 'replies']
+        ref_name = 'CommentSerializer'
+
+    def get_replies(self, obj):
+        # Get replies to this comment
+        replies = Comment.objects.filter(parent=obj)
+        return CommentSerializer(replies, many=True).data
     
 class PostSerializer(serializers.ModelSerializer):
     tagged_users = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True, required=False)
@@ -33,6 +47,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'title', 'description', 'date_created', 'published', 'author', 'tagged_users','like_count','comments']
+        ref_name = 'PostSerializer'
 
     def get_like_count(self, obj):
         return Like.objects.filter(post=obj).count()
@@ -55,17 +70,5 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ['id', 'user', 'post']
+        ref_name = 'LikeSerializer'
 
-
-class CommentSerializer(serializers.ModelSerializer):
-    replies = serializers.SerializerMethodField()
-    author = serializers.StringRelatedField()
-    
-    class Meta:
-        model = Comment
-        fields = ['id', 'post', 'author', 'content', 'created_at', 'parent', 'replies']
-
-    def get_replies(self, obj):
-        # Get replies to this comment
-        replies = Comment.objects.filter(parent=obj)
-        return CommentSerializer(replies, many=True).data
