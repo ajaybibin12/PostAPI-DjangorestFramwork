@@ -124,22 +124,29 @@ WSGI_APPLICATION = 'assessment.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.getenv('DB_NAME', 'assessment_db'),
+#         'USER': os.getenv('DB_USER', 'root'),
+#         'PASSWORD': os.getenv('DB_PASSWORD', 'root1234'),
+#         'HOST': os.getenv('DB_HOST', 'localhost'),
+#         'PORT': os.getenv('DB_PORT', '3306'),
+#         'OPTIONS': {
+#             'connect_timeout': 40,  # Increase the connection timeout to 20 seconds
+#         },
+#     }
+# }
+
+
+# DATABASES['default'] = dj_database_url.parse("postgresql://postapi_postgresql_user:zRRWUJJ43xk2sALr9vLL1fqcuV5X7VUW@dpg-crbm24aj1k6c738dbaeg-a.oregon-postgres.render.com/postapi_postgresql")
+
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', 'assessment_db'),
-        'USER': os.getenv('DB_USER', 'root'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'root1234'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '3306'),
-        'OPTIONS': {
-            'connect_timeout': 40,  # Increase the connection timeout to 20 seconds
-        },
-    }
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
 
-
-DATABASES['default'] = dj_database_url.parse("postgresql://postapi_postgresql_user:zRRWUJJ43xk2sALr9vLL1fqcuV5X7VUW@dpg-crbm24aj1k6c738dbaeg-a.oregon-postgres.render.com/postapi_postgresql")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
