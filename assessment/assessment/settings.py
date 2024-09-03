@@ -131,6 +131,9 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD', 'root1234'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', '3306'),
+        'OPTIONS': {
+            'connect_timeout': 40,  # Increase the connection timeout to 20 seconds
+        },
     }
 }
 
