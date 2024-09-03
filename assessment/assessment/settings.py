@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9-4usrg6dzh$y!tm=7q*qr5-%a6ulagjrx34v9*%a9vxz+s$+%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["socialmedia-posts-api.onrender.com","0.0.0.0", "127.0.0.1"]
 
