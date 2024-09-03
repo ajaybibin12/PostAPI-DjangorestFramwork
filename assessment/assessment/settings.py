@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 
 load_dotenv()
@@ -136,6 +137,9 @@ DATABASES = {
         },
     }
 }
+
+
+DATABASES['default'] = dj_database_url.parse("postgresql://postapi_postgresql_user:zRRWUJJ43xk2sALr9vLL1fqcuV5X7VUW@dpg-crbm24aj1k6c738dbaeg-a.oregon-postgres.render.com/postapi_postgresql")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
