@@ -9,6 +9,7 @@ import re
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.hashers import make_password
 from .models import Post, Like,Comment
+from rest_framework.permissions import AllowAny
 
 
 User = get_user_model()
@@ -16,6 +17,7 @@ User = get_user_model()
 class SignupView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         password = self.request.data.get('password')
