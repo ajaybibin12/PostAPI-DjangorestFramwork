@@ -106,8 +106,25 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://socialmedia-posts-api.onrender.com",
+    "http://localhost:8000",
 ]
 
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "content-type",
+    "authorization",
+    "x-requested-with",
+]
 
 
 ROOT_URLCONF = 'assessment.urls'
